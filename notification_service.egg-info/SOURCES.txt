@@ -1,0 +1,12 @@
+setup.py
+app/__init__.py
+app/celery.py
+app/config.py
+app/consumer.py
+app/producer.py
+app/rabbitmq_config.py
+app/routes.py
+notification_service.egg-info/PKG-INFO
+notification_service.egg-info/SOURCES.txt
+notification_service.egg-info/dependency_links.txt
+notification_service.egg-info/top_level.txt
