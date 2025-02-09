@@ -1,0 +1,243 @@
+version: '3.8'
+
+services:
+  # ==========================
+  # DATABASE SERVICES
+  # ==========================
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: pesco_db
+      MYSQL_USER: ghost_rider
+      MYSQL_PASSWORD: powergrid@2?.mk
+    ports:
+      - "3306:3306"
+    networks:
+      - pesco-network
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_DB: pesco_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: powergrid@2?.net
+    ports:
+      - "5432:5432"
+    networks:
+      - pesco-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - 
+  # ==========================
+  # MESSAGE BROKER
+  # ==========================
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - pesco-network
+
+  # ==========================
+  # SPRING BOOT MICROSERVICES
+  # ==========================
+
+  authentication-service:
+    build:
+      context: ./authentication-service
+      dockerfile: Dockerfile
+    container_name: authentication-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/pesco_db
+      - SPRING_DATASOURCE_USERNAME=ghost_rider
+      - SPRING_DATASOURCE_PASSWORD=powergrid@2?.mk
+    depends_on:
+      - mysql
+    networks:
+      - pesco-network
+      
+  history-service:
+    build:
+      context: ./history-service
+      dockerfile: Dockerfile
+    container_name: history-service
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/pesco_db
+      SPRING_DATASOURCE_USERNAME: ghost_rider
+      SPRING_DATASOURCE_PASSWORD: powergrid@2?.mk
+    ports:
+      - "8050:8050"
+    networks:
+      - pesco-network
+
+  wallet-service:
+    build:
+      context: ./wallet-service
+      dockerfile: Dockerfile
+    container_name: wallet-service
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/pesco_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: powergrid@2?.net
+    ports:
+      - "8081:8081"
+    networks:
+      - pesco-network
+
+  deposit-service:
+    build:
+      context: ./deposit-service
+      dockerfile: Dockerfile
+    container_name: deposit-service
+    depends_on:
+      - wallet-service
+    ports:
+      - "8020:8020"
+    networks:
+      - pesco-network
+
+  withdrawal-service:
+    build:
+      context: ./withdrawal-service
+      dockerfile: Dockerfile
+    container_name: withdrawal-service
+    depends_on:
+      - wallet-service
+    ports:
+      - "8030:8030"
+    networks:
+      - pesco-network
+
+  revenue-service:
+    build:
+      context: ./revenue-service
+      dockerfile: Dockerfile
+    container_name: revenue-service
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/pesco_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: powergrid@2?.net
+    ports:
+      - "8083:8083"
+    networks:
+      - pesco-network
+
+  maintenance-service:
+    build:
+      context: ./maintenance-service
+      dockerfile: Dockerfile
+    container_name: maintenance-service
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/pesco_db
+      SPRING_DATASOURCE_USERNAME: ghost_rider
+      SPRING_DATASOURCE_PASSWORD: powergrid@2?.mk
+    ports:
+      - "8085:8085"
+    networks:
+      - pesco-network
+  
+  # ==========================
+  # GOLANG MICROSERVICES
+  # ==========================
+
+  bank-collection-service:
+    build:
+      context: ./bank-collection-service
+      dockerfile: Dockerfile
+    container_name: bank-collection-service
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/pesco_db
+      SPRING_DATASOURCE_USERNAME: ghost_rider
+      SPRING_DATASOURCE_PASSWORD: powergrid@2?.mk
+    ports:
+      - "8040:8040"
+    networks:
+      - pesco-network
+
+  blacklist-service:
+    build:
+      context: ./blacklist-service
+      dockerfile: Dockerfile
+    container_name: blacklist-service
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/pesco_db
+      SPRING_DATASOURCE_USERNAME: ghost_rider
+      SPRING_DATASOURCE_PASSWORD: powergrid@2?.mk
+    ports:
+      - "8082:8082"
+    networks:
+      - pesco-network
+
+  beneficiary-service:
+    build:
+      context: ./beneficiary-service
+      dockerfile: Dockerfile
+    container_name: beneficiary-service
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/pesco_db
+      SPRING_DATASOURCE_USERNAME: ghost_rider
+      SPRING_DATASOURCE_PASSWORD: powergrid@2?.mk
+    ports:
+      - "8084:8084"
+    networks:
+      - pesco-network
+
+  # ==========================
+  # FLASK MICROSERVICE
+  # ==========================
+
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    container_name: notification-service
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBITMQ_HOST: rabbitmq
+    ports:
+      - "8070:8070"
+    networks:
+      - pesco-network
+
+# ==========================
+# NETWORK AND VOLUMES
+# ==========================
+
+networks:
+  pesco-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  postgres_data:

@@ -1,0 +1,31 @@
+server:
+  port: 8020
+
+jwt:
+  secret-key: lcBCilFEQT0SWEZcCQhGx2UaCZcxPx4bYBfrGM0DVKDJycK2UL4dDJqAkZ8r4IBQxSa3S2wlTVlnVVzvzP5sfzPtLUournmEY2N3ZGVnQ1BtWEF0anZ0aDNLNHJhaHh9IkFVaj0PXA==
+
+flutterwave:
+  public-key: FLWPUBK_TEST-9f86808391a0bef01975c332a2782e5a-X
+  secret-key: FLWSECK_TEST-1eee27f63b4dc12394dbf5c7badaa39e-X
+  url: https://api.flutterwave.com/v3
+
+paystack:
+  api:
+    url: https://api.paystack.co
+    key: sk_test_aaa8ff310f15a0ad5f23950a584f8942cbdf02aa
+
+auth-service:
+  base-url: http://localhost:8080
+
+history-service:
+  base-url: http://localhost:8050
+
+banklist-service:
+  base-url: http://localhost:8040
+
+wallet-service:
+  base-url: http://localhost:8081
+  
+logging:
+  level:
+    org.springframework.security: DEBUG

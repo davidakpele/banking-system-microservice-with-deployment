@@ -1,0 +1,42 @@
+server:
+  port: 8079
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: akpeledavidprogress@gmail.com
+    password: exmmfqzmigjrkdpd
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false
+
+pesco:
+  banking:
+    service:
+      email: artexnetworkservice@gmail.com
+
+file:
+  upload-dir: src/main/resources/static/image
+
+web:
+  resources:
+    static-locations: classpath:/static/
