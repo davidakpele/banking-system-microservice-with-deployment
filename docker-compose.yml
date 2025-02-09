@@ -160,6 +160,19 @@ services:
     networks:
       - pesco-network
   
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    container_name: notification-service
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBITMQ_HOST: rabbitmq
+    ports:
+      - "8070:8070"
+    networks:
+      - pesco-network
   # ==========================
   # GOLANG MICROSERVICES
   # ==========================
@@ -212,23 +225,6 @@ services:
     networks:
       - pesco-network
 
-  # ==========================
-  # FLASK MICROSERVICE
-  # ==========================
-
-  notification-service:
-    build:
-      context: ./notification-service
-      dockerfile: Dockerfile
-    container_name: notification-service
-    depends_on:
-      - rabbitmq
-    environment:
-      RABBITMQ_HOST: rabbitmq
-    ports:
-      - "8070:8070"
-    networks:
-      - pesco-network
 
 # ==========================
 # NETWORK AND VOLUMES

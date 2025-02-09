@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: beneficiary-name
+  labels:
+    app: beneficiary-name
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: beneficiary-name

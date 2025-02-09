@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: deposit-name
+  labels:
+    app: deposit-name
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: deposit-name
