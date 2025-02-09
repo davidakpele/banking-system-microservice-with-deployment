@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: history-name
+  labels:
+    app: history-name
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: history-name

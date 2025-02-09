@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wallet-name
+  labels:
+    app: wallet-name
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: wallet-name
+  template:
+    metadata:
+      labels:
+        app: wallet-name
+    spec:
+      containers:
+      - name: your-container-name
+        image: your-docker-image:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ENV_VARIABLE_NAME
+          value: "value"
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: withdrawal-name
+  labels:
+    app: withdrawal-name
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: withdrawal-name
