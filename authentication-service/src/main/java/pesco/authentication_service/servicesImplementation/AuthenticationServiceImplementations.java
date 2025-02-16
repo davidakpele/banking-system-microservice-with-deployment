@@ -119,11 +119,11 @@ public class AuthenticationServiceImplementations implements AuthenticationServi
         String verificationLink = keysWrapper.getUrl() + "/auth/verifyRegistration?token=" + verificationToken + "&id="
                 + unverifiedUserId;
 
-        String content = "Dear " + user.getUsername() + ",\n\n"
+        String content = "Dear " + request.getUsername() + ",\n\n"
                 + "Thank you for signing up for pesco! We're excited to have you on board.\n\n"
                 + "Please verify your email address to complete your registration and activate your account.";
 
-        CompletableFuture<Void>sendVerificationMessage = CompletableFuture.runAsync(() -> notificationServiceClient.sendVerificationEmail(savedUser.getEmail(), content, verificationLink, request.getUsername()));
+        CompletableFuture<Void>sendVerificationMessage = CompletableFuture.runAsync(() -> notificationServiceClient.sendVerificationEmail(request.getEmail(), content, verificationLink, request.getUsername()));
         sendVerificationMessage.join();
 
         String message = "Thanks for your interest in joining Artex network! To complete account verification, email has been sent to email address you provided.";

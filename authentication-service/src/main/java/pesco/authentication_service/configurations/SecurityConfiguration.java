@@ -38,6 +38,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/css/**", "/js/**", "/images/**").permitAll();
                     auth.requestMatchers("/api/v1/auth/**").permitAll();
+                    auth.requestMatchers("/error/**").permitAll();
                     // Permit public access to the username endpoint
                     auth.requestMatchers("/api/v1/user/by/public/username/{username}").permitAll();
                     auth.requestMatchers("/api/v1/user/by/public/userId/{userId}").permitAll();

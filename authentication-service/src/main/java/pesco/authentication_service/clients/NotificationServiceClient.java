@@ -25,7 +25,6 @@ public class NotificationServiceClient {
             requestBody.put("username", username);
             requestBody.put("link", verificationLink);
             requestBody.put("message", content);
-
             // Send the POST request
             return notificationServiceWebClient.post()
                 .uri("/send/verification-message") 

@@ -28,7 +28,10 @@ public class WebClientConfig {
     @Value("${banklist-service.base-url}")
     private String bankListServiceBaseUrl;
 
-    @Bean
+    @Value("${notification-service.base-url}")
+    private String notificationServiceBaseUrl;
+
+    @Bean 
     public WebClient.Builder webClientBuilder() {
         // Configure TcpClient with timeouts
         TcpClient tcpClient = TcpClient.create()
@@ -74,4 +77,13 @@ public class WebClientConfig {
                 .baseUrl(bankListServiceBaseUrl) // Set base URL for bankList Service
                 .build();
     }
+
+    @Bean
+    public WebClient notificationServiceWebClient(WebClient.Builder webClientBuilder) {
+        return webClientBuilder
+                .baseUrl(notificationServiceBaseUrl)
+                .build();
+    }
+
+    
 }

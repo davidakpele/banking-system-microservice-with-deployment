@@ -30,7 +30,7 @@ public class MessageController {
     public ResponseEntity<?> verificationAlert(HttpServletRequest httpRequest,
             @Valid @RequestBody AccountVerificationRequest request) {
         try {
-            authenticationMessageProducer.sendVerificationEmail(request.getEmail(), request.getmessage(), request.getmessage(), request.getUsername());
+            authenticationMessageProducer.sendVerificationEmail(request.getEmail(), request.getmessage(), request.getLink(), request.getUsername());
             return ResponseEntity.ok().body("Verification email has been successfully sent.!");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Failed to send Verification email.");

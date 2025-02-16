@@ -48,7 +48,7 @@ public class AuthenticationEmailService {
     }
 
     @Async
-    public CompletableFuture<Void> sendEmailVerificationMessage(String email, String content, String link,
+    public CompletableFuture<Void> sendEmailVerificationMessage(String email, String message, String link,
             String username) {
         // Create MimeMessage
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -57,10 +57,10 @@ public class AuthenticationEmailService {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "utf-8");
             // Prepare the HTML template
             Context context = new Context();
-
+        
             context.setVariable("username", username);
             context.setVariable("link", link);
-            context.setVariable("content", content);
+            context.setVariable("content", message);
 
             String htmlContent = templateEngine.process("verification-email", context);
 

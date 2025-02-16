@@ -74,7 +74,7 @@ func (h *BankHandler) GetBankById(c *gin.Context, id uint) (*model.UserBankList,
 	bank, err := h.service.FindById(id)
 	if err != nil {
 		return nil, fmt.Errorf("bank not found")
-	}
+	} 
 	return bank, nil
 }
 
@@ -84,7 +84,6 @@ func (h *BankHandler) GetBankByAccountNumber(c *gin.Context, accountNumber strin
 	if err != nil {
 		return nil, fmt.Errorf("bank with given account number not found")
 	}
-
 	return bank, nil
 }
 

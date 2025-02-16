@@ -14,18 +14,21 @@ paystack:
     url: https://api.paystack.co
     key: sk_test_aaa8ff310f15a0ad5f23950a584f8942cbdf02aa
 
-auth-service:
-  base-url: http://localhost:8080
-
+wallet-service:
+  base-url: http://localhost:8081
+  
 history-service:
   base-url: http://localhost:8050
+
+auth-service:
+  base-url: http://localhost:8080
 
 banklist-service:
   base-url: http://localhost:8040
 
-wallet-service:
-  base-url: http://localhost:8081
-  
+notification-service:
+  base-url: http://localhost:8079
+
 logging:
   level:
     org.springframework.security: DEBUG
